@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+require 'spaceship'
+require 'json'
+
+import 'Base/Helpers/BaseHelper.rb'
+import 'Store/Store.rb'
+import 'Store/AppExtensions.rb'
+
+platform :ios do
+  lane :prepare_environment do |options|
+    ENV["SNAPSHOT_SKIP_OPEN_SUMMARY"] = "1"
+    ENV["FASTLANE_SKIP_UPDATE_CHECK"] = "1"
+    ENV["FASTLANE_HIDE_TIMESTAMP"] = "1"
+    ENV["FASTLANE_SKIP_ACTION_SUMMARY"] = "1"
+    ENV["FASTLANE_HIDE_PLUGINS_TABLE"] = "1"
+
+    Store.new(fastlane: self).prepare_environment(options)
+  end
+end
