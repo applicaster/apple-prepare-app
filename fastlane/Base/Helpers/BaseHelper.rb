@@ -43,6 +43,7 @@ class BaseHelper
     version = options[:version]
     platforms = options[:platforms]
     bundle_identifier = options[:bundle_identifier]
+    is_extension = options[:is_extension]
 
     @fastlane.produce(
       username: username,
@@ -57,11 +58,11 @@ class BaseHelper
       skip_devcenter: false,
       enable_services: {
         app_group: 'on',
-        associated_domains: 'on',
+        associated_domains: is_extension ? 'off' : 'on',
         data_protection: 'complete',
-        in_app_purchase: 'on',
+        in_app_purchase: is_extension ? 'off' : 'on',
         push_notification: 'on',
-        access_wifi: 'on'
+        access_wifi: is_extension ? 'off' : 'on'
       }
     )
   end
@@ -76,13 +77,11 @@ class BaseHelper
 
     puts("Printing all available `#{certificate_type_name} certificates`")
 
-    password = ENV['FASTLANE_PASSWORD']
+    login(username)
 
     locally_available_certificates = 0
-    Spaceship::Portal.login(username, password)
     available_certificates = Spaceship::Certificate::AppleDistribution.all(mac: true)
     available_certificates.each do |certificate|
-      puts("#{certificate.id}")
       puts(certificate)
       path = store_cer(certificate)
       puts("file path: #{path}")
@@ -90,19 +89,19 @@ class BaseHelper
         locally_available_certificates+=1
         finger_print = FastlaneCore::CertChecker.sha1_fingerprint(path)
         puts("Certificate with id #{certificate.id} (sha1: #{finger_print}) is available locally and will be used for next operations".colorize(:green))
-        puts("To obtain its p12 file, please export the certificate from the keychain").colorize(:green)
+        puts("To obtain its p12 file, please export the certificate from the keychain".colorize(:green))
       end
     end
     if locally_available_certificates == 0
       if available_certificates.count > 0 
-        puts("None of the available certificates can be used as not exists locally").colorize(:yellow)
-        puts("To use one of the existing certificates, please obtain certificate's p12 file and password, and double-click on it to install on your mac").colorize(:yellow)
-        puts("*** It is highly recommended to use existing certificate instead of creating new one, especially because there is a limit of number of distibution certificates can be created on developer account! ***").colorize(:yellow)
+        puts("None of the available certificates can be used as not exists locally".colorize(:yellow))
+        puts("To use one of the existing certificates, please obtain certificate's p12 file and password, and double-click on it to install on your mac".colorize(:yellow))
+        puts("*** It is highly recommended to use existing certificate instead of creating new one, especially because there is a limit of number of distibution certificates can be created on developer account! ***".colorize(:yellow))
       else
         puts("There are no certificates available")
       end
 
-      puts("Continue to create new certificate? (type `yes` to continue)".colorize(:blue))
+      puts("Continue to create new certificate? (type `yes` to continue)".colorize(:red))
       continue_with_creation = STDIN.gets.chomp
   
       if continue_with_creation == "yes"
@@ -146,6 +145,8 @@ class BaseHelper
         rescue Exception => e  
           puts("No new p12 certificate was generated, please export existing certificate from your keychain".colorize(:red).colorize(background: :white))
         end
+      else
+        UI.user_error! "Unable to continue without having existing distribution certificate in keychain or creating new one"
       end
     end
   end
@@ -227,8 +228,7 @@ class BaseHelper
     team_id = options[:team_id]
     bundle_identifier = options[:bundle_identifier]
 
-    password = ENV['FASTLANE_PASSWORD']
-    Spaceship::Portal.login(username, password)
+    login(username)
     Spaceship::Portal.client.team_id = team_id
 
     profiles = Spaceship::Portal::ProvisioningProfile.all.find_all do |profile|
@@ -272,5 +272,10 @@ class BaseHelper
 
   def keychain_password
     'circle'
+  end
+
+  def login(username)
+    password = ENV['FASTLANE_PASSWORD']
+    Spaceship::Portal.login(username, password)
   end
 end

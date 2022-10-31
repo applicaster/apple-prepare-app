@@ -69,6 +69,7 @@ class Testflight < BaseHelper
       @user_credentials = UserCredentials.new(username, password)
       sh("bundle exec fastlane fastlane-credentials add --username '#{@user_credentials.username}' --password '#{@user_credentials.password}'")
       ENV['FASTLANE_PASSWORD'] = @user_credentials.password
+      Spaceship::Portal.login(username, password)
     rescue StandardError => e
       UI.user_error! e.message
     end
@@ -87,7 +88,8 @@ class Testflight < BaseHelper
       team_id: @app_info.team_id,
       name: @app_info.name,
       bundle_identifier: @app_info.bundle_identifier,
-      index: @app_info.index
+      index: @app_info.index,
+      is_extension: false
     )
 
     prepare_app_group

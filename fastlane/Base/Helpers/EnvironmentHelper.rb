@@ -6,6 +6,8 @@ class EnvironmentHelper
   end
 
   def files_output_path
-    "#{root_path}/Files"
+    path = "#{root_path}/Files"
+    FileUtils.mkdir_p(path) unless File.directory?(path)
+    path
   end
 end

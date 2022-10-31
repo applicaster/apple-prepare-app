@@ -17,7 +17,8 @@ class TestflightAppExtensions < BaseHelper
       team_id: team_id,
       name: extension_app_name,
       bundle_identifier: extension_bundle_identifier,
-      index: extension_type
+      index: extension_type,
+      is_extension: true
     )
 
     # add extension to the app group
