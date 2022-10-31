@@ -7,14 +7,12 @@ import 'Base/Helpers/BaseHelper.rb'
 import 'Testflight/Testflight.rb'
 import 'Testflight/AppExtensions.rb'
 
-platform :ios do
-  lane :prepare_environment do |options|
-    ENV["SNAPSHOT_SKIP_OPEN_SUMMARY"] = "1"
-    ENV["FASTLANE_SKIP_UPDATE_CHECK"] = "1"
-    ENV["FASTLANE_HIDE_TIMESTAMP"] = "1"
-    ENV["FASTLANE_SKIP_ACTION_SUMMARY"] = "1"
-    ENV["FASTLANE_HIDE_PLUGINS_TABLE"] = "1"
+lane :prepare_environment do |options|
+  ENV["SNAPSHOT_SKIP_OPEN_SUMMARY"] = "1"
+  ENV["FASTLANE_SKIP_UPDATE_CHECK"] = "1"
+  ENV["FASTLANE_HIDE_TIMESTAMP"] = "1"
+  ENV["FASTLANE_SKIP_ACTION_SUMMARY"] = "1"
+  ENV["FASTLANE_HIDE_PLUGINS_TABLE"] = "1"
 
-    Testflight.new(fastlane: self).prepare_environment(options)
-  end
+  Testflight.new(fastlane: self).prepare_environment(options)
 end

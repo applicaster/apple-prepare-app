@@ -90,16 +90,19 @@ class BaseHelper
         locally_available_certificates+=1
         finger_print = FastlaneCore::CertChecker.sha1_fingerprint(path)
         puts("Certificate with id #{certificate.id} (sha1: #{finger_print}) is available locally and will be used for next operations".colorize(:green))
+        puts("To obtain its p12 file, please export the certificate from the keychain").colorize(:green)
       end
     end
     if locally_available_certificates == 0
       if available_certificates.count > 0 
-        puts("None of the available certificates can be used as not exists locally")
+        puts("None of the available certificates can be used as not exists locally").colorize(:orange)
+        puts("To use one of the existing certificates, please obtain certificate's p12 file and password, and double-click on it to install on your mac").colorize(:orange)
+        puts("*** It is highly recommended to use existing certificate instead of creating new one, especially because there is a limit of number of distibution certificates can be created on developer account! ***").colorize(:orange)
       else
-        puts("There are no certificates available for use")
+        puts("There are no certificates available")
       end
 
-      puts("Continue to create new certificate? (type `yes` to continue)")
+      puts("Continue to create new certificate? (type `yes` to continue)".colorize(:blue))
       continue_with_creation = STDIN.gets.chomp
   
       if continue_with_creation == "yes"
