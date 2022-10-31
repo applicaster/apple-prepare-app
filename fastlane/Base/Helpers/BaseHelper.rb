@@ -95,9 +95,9 @@ class BaseHelper
     end
     if locally_available_certificates == 0
       if available_certificates.count > 0 
-        puts("None of the available certificates can be used as not exists locally").colorize(:orange)
-        puts("To use one of the existing certificates, please obtain certificate's p12 file and password, and double-click on it to install on your mac").colorize(:orange)
-        puts("*** It is highly recommended to use existing certificate instead of creating new one, especially because there is a limit of number of distibution certificates can be created on developer account! ***").colorize(:orange)
+        puts("None of the available certificates can be used as not exists locally").colorize(:yellow)
+        puts("To use one of the existing certificates, please obtain certificate's p12 file and password, and double-click on it to install on your mac").colorize(:yellow)
+        puts("*** It is highly recommended to use existing certificate instead of creating new one, especially because there is a limit of number of distibution certificates can be created on developer account! ***").colorize(:yellow)
       else
         puts("There are no certificates available")
       end
