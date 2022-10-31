@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class StoreAppExtensions < BaseHelper
+class TestflightAppExtensions < BaseHelper
   def prepare_extension(options)
     username = options[:username]
     team_id = options[:team_id]

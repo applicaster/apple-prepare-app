@@ -12,12 +12,12 @@ require 'io/console'
 import 'Base/Models/AppInfo.rb'
 import 'Base/Models/UserCredentials.rb'
 
-class Store < BaseHelper
+class Testflight < BaseHelper
   attr_accessor :app_extensions_helper, :user_credentials, :app_info
 
   def initialize(options = {})
     super
-    @app_extensions_helper = StoreAppExtensions.new(fastlane: @fastlane)
+    @app_extensions_helper = TestflightAppExtensions.new(fastlane: @fastlane)
   end
 
   def prepare_environment(options)
@@ -42,8 +42,11 @@ class Store < BaseHelper
     puts("Developer account team id: ")
     team_id = STDIN.gets.chomp
 
-    unless app_name.empty? && bundle_identifier.empty? && team_id.empty?
+    begin
+      raise unable_to_proceed_without_requried_parameters if app_name.empty? && bundle_identifier.empty? && team_id.empty?
       @app_info = AppInfo.new(app_name, bundle_identifier, team_id)
+    rescue StandardError => e
+      UI.user_error! e.message
     end
   end
 
@@ -54,10 +57,13 @@ class Store < BaseHelper
     puts("Password: ")
     password = STDIN.noecho(&:gets).chomp
 
-    unless username.empty? && password.empty?
+    begin
+      raise unable_to_proceed_without_requried_parameters if username.empty? && password.empty?
       @user_credentials = UserCredentials.new(username, password)
       sh("bundle exec fastlane fastlane-credentials add --username '#{@user_credentials.username}' --password '#{@user_credentials.password}'")
       ENV['FASTLANE_PASSWORD'] = @user_credentials.password
+    rescue StandardError => e
+      UI.user_error! e.message
     end
   end
 
@@ -187,5 +193,9 @@ class Store < BaseHelper
 
   def widget_extension_bundle_identifier
     "#{@app_info.bundle_identifier}.#{@app_extensions_helper.widget_extension_target_name}"
+  end
+
+  def unable_to_proceed_without_requried_parameters
+    "Unable to proceed without required parameters"
   end
 end
