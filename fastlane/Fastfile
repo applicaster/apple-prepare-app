@@ -7,7 +7,7 @@ import 'Base/Helpers/BaseHelper.rb'
 import 'Testflight/Testflight.rb'
 import 'Testflight/AppExtensions.rb'
 
-lane :prepare_environment do |options|
+lane :prepare do |options|
   ENV["SNAPSHOT_SKIP_OPEN_SUMMARY"] = "1"
   ENV["FASTLANE_SKIP_UPDATE_CHECK"] = "1"
   ENV["FASTLANE_HIDE_TIMESTAMP"] = "1"
