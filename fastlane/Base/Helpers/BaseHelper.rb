@@ -30,7 +30,7 @@ class BaseHelper
   end
 
   def current(name)
-    puts "#method: #{name}".colorize(:white).colorize(background: :blue)
+    # puts "#method: #{name}".colorize(:white).colorize(background: :blue)
   end
 
   def create_app_on_dev_portal(options)
