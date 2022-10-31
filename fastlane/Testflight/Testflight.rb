@@ -43,7 +43,7 @@ class Testflight < BaseHelper
     puts("App name (ex. Test app): ")
     app_name = STDIN.gets.chomp
 
-    puts("App bundle identifier (ex. com.applicaster.testpp): ")
+    puts("App bundle identifier (ex. com.domain.app): ")
     bundle_identifier = STDIN.gets.chomp
 
     puts("Developer account team id (can be found here: https://developer.apple.com/account): ")
