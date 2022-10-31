@@ -8,6 +8,7 @@ require 'colorize'
 require 'plist'
 require 'json'
 require 'io/console'
+require 'colorize'
 
 import 'Base/Models/AppInfo.rb'
 import 'Base/Models/UserCredentials.rb'
@@ -23,6 +24,12 @@ class Testflight < BaseHelper
   def prepare_environment(options)
     current(__callee__.to_s)
 
+    puts("---------------------------------------------------------".colorize(:green))
+    puts("Obtaining distribution certificate and provisioning profiles required for the new app and its extensions".colorize(:green))
+    puts("Please enter required parameters in order to continue with the process".colorize(:green))
+    puts("(entered details are required only to complete the process and will not be stored locally)".colorize(:yellow))
+    puts("---------------------------------------------------------".colorize(:green))
+
     prepare_app_info
     prepare_credentials
 
@@ -33,13 +40,13 @@ class Testflight < BaseHelper
   end
 
   def prepare_app_info
-    puts("App name: ")
+    puts("App name (ex. Test app): ")
     app_name = STDIN.gets.chomp
 
-    puts("App bundle identifier: ")
+    puts("App bundle identifier (ex. com.applicaster.testpp): ")
     bundle_identifier = STDIN.gets.chomp
 
-    puts("Developer account team id: ")
+    puts("Developer account team id (can be found here: https://developer.apple.com/account): ")
     team_id = STDIN.gets.chomp
 
     begin
@@ -51,7 +58,7 @@ class Testflight < BaseHelper
   end
 
   def prepare_credentials
-    puts("Username: ")
+    puts("AppleID associated with the Ddeveloper account: ")
     username = STDIN.gets.chomp
 
     puts("Password: ")
