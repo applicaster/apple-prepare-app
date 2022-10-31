@@ -58,7 +58,7 @@ class Testflight < BaseHelper
   end
 
   def prepare_credentials
-    puts("AppleID associated with the Ddeveloper account: ")
+    puts("AppleID associated with the Developer account: ")
     username = STDIN.gets.chomp
 
     puts("Password: ")
