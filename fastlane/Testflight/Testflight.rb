@@ -150,7 +150,8 @@ class Testflight < BaseHelper
       extension_type: @app_extensions_helper.notification_content_extension_key,
       extension_target_name: @app_extensions_helper.notification_content_extension_target_name,
       extension_app_name: notification_content_extension_app_name,
-      extension_bundle_identifier: notification_content_extension_bundle_identifier
+      extension_bundle_identifier: notification_content_extension_bundle_identifier,
+      extension_platform: extension_platform
     )
   end
 
@@ -163,7 +164,8 @@ class Testflight < BaseHelper
       extension_type: @app_extensions_helper.notification_service_extension_key,
       extension_target_name: @app_extensions_helper.notification_service_extension_target_name,
       extension_app_name: notification_service_extension_app_name,
-      extension_bundle_identifier: notification_service_extension_bundle_identifier
+      extension_bundle_identifier: notification_service_extension_bundle_identifier,
+      extension_platform: extension_platform
     )
   end
 
@@ -176,7 +178,8 @@ class Testflight < BaseHelper
       extension_type: @app_extensions_helper.widget_extension_key,
       extension_target_name: @app_extensions_helper.widget_extension_target_name,
       extension_app_name: widget_extension_app_name,
-      extension_bundle_identifier: widget_extension_bundle_identifier
+      extension_bundle_identifier: widget_extension_bundle_identifier,
+      extension_platform: extension_platform
     )
   end
 
@@ -206,5 +209,9 @@ class Testflight < BaseHelper
 
   def unable_to_proceed_without_requried_parameters
     "Unable to proceed without required parameters"
+  end
+
+  def extension_platform
+    "ios"
   end
 end

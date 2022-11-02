@@ -10,6 +10,7 @@ class TestflightAppExtensions < BaseHelper
     extension_target_name = options[:extension_target_name]
     extension_app_name = options[:extension_app_name]
     extension_bundle_identifier = options[:extension_bundle_identifier]
+    extension_platform = options[:extension_platform]
 
     # create app for the notifications
     create_app_on_dev_portal(
@@ -30,7 +31,7 @@ class TestflightAppExtensions < BaseHelper
       team_id: team_id,
       name: extension_app_name,
       bundle_identifier: extension_bundle_identifier,
-      platform: 'ios'
+      platform: extension_platform
     )
   end
 
@@ -43,10 +44,6 @@ class TestflightAppExtensions < BaseHelper
   def notification_service_extension_target_name
     'NotificationServiceExtension'
   end
-  
-  def notification_service_extension_bundle_identifier
-    "#{@@env_helper.bundle_identifier}.#{notification_service_extension_target_name}"
-  end
 
   # notification content extension
   def notification_content_extension_key
@@ -57,10 +54,6 @@ class TestflightAppExtensions < BaseHelper
     'NotificationContentExtension'
   end
 
-  def notification_content_extension_bundle_identifier
-    "#{@@env_helper.bundle_identifier}.#{notification_content_extension_target_name}"
-  end
-
   # widget extension
   def widget_extension_key
     'WIDGET_EXTENSION'
@@ -68,9 +61,5 @@ class TestflightAppExtensions < BaseHelper
 
   def widget_extension_target_name
     'AppWidgetExtension'
-  end
-
-  def widget_extension_bundle_identifier
-    "#{@@env_helper.bundle_identifier}.#{widget_extension_target_name}"
   end
 end

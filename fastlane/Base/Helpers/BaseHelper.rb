@@ -60,7 +60,7 @@ class BaseHelper
         app_group: 'on',
         associated_domains: is_extension ? 'off' : 'on',
         data_protection: 'complete',
-        in_app_purchase: is_extension ? 'off' : 'on',
+        in_app_purchase: 'on',
         push_notification: 'on',
         access_wifi: is_extension ? 'off' : 'on'
       }
