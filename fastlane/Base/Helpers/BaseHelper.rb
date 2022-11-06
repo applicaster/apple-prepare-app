@@ -111,7 +111,8 @@ class BaseHelper
           team_id: team_id,
           output_path: @@env_helper.files_output_path,
           keychain_path: keychain_path,
-          keychain_password: keychain_password
+          keychain_password: keychain_password,
+          generate_apple_certs: true
         )
       
         begin 
