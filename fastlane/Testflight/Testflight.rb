@@ -124,21 +124,43 @@ class Testflight < BaseHelper
 
   def prepare_extensions
     current(__callee__.to_s)
-    prepare_notification_content_extension
-    prepare_notification_service_extension
-    prepare_widget_extension
+
+    puts("---------------------------------------------------------".colorize(:green))
+    puts("Preparing app extensions".colorize(:green))
+    puts("this step will create new extension app on developer portal (if not already exists), add it to the app related app group and generate new provisioning profile for following extensions:".colorize(:yellow))
+    puts("- notification service extension".colorize(:yellow))
+    puts("- notification content extension".colorize(:yellow))
+    puts("- widget extension".colorize(:yellow))
+    puts("to skip this step type `skip` or press enter to continue".colorize(:red))
+    puts("---------------------------------------------------------".colorize(:green))
+    continue_with_step = STDIN.gets.chomp
+  
+    unless continue_with_step == "skip"
+      prepare_notification_content_extension
+      prepare_notification_service_extension
+      prepare_widget_extension
+    end
   end
 
   def prepare_app_on_itc
-    create_app_on_itc(      
-      username: @user_credentials.username,
-      team_id: @app_info.team_id,
-      name: @app_info.name,
-      bundle_identifier: @app_info.bundle_identifier,
-      index: @app_info.index,
-      platforms: @app_info.platforms,
-      language: @app_info.language
-    )
+    puts("---------------------------------------------------------".colorize(:green))
+    puts("Preparing app on iTunesConnect:".colorize(:green))
+    puts("this step will create new app on iTunesConnect (if not already exists)".colorize(:yellow))
+    puts("to skip this step type `skip` or press enter to continue".colorize(:red))
+    puts("---------------------------------------------------------".colorize(:green))
+    continue_with_step = STDIN.gets.chomp
+
+    unless continue_with_step == "skip"
+      create_app_on_itc(      
+        username: @user_credentials.username,
+        team_id: @app_info.team_id,
+        name: @app_info.name,
+        bundle_identifier: @app_info.bundle_identifier,
+        index: @app_info.index,
+        platforms: @app_info.platforms,
+        language: @app_info.language
+      )
+    end
   end
 
   def prepare_notification_content_extension
