@@ -217,6 +217,7 @@ class BaseHelper
       provisioning_name: "#{name} #{platform} provisioning profile",
       filename: "#{bundle_identifier}-#{platform}.mobileprovision",
       platform: platform,
+      skip_certificate_verification: true,
       output_path: @@env_helper.files_output_path
     )
 
